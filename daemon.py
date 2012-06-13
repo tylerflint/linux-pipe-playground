@@ -1,7 +1,9 @@
 #!/usr/bin/env python
 
 import time
+import sys
 
 while True:
   print "hey"
-  # time.sleep( 1 )
+  sys.stdout.flush()
+  time.sleep( 1 )
