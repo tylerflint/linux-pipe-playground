@@ -1,15 +1,19 @@
 var net = require('net');
 
-var client = net.connect('/tmp/echo.sock', function() { //'connect' listener
+var server = net.createServer(function(c) { //'connection' listener
   console.log('client connected');
-  client.write('world!\r\n');
+
+  c.on('end', function() {
+    console.log('client disconnected');
+  });
+
+  c.on('data', function(data) {
+    console.log(data.toString());
+  });
+
+  c.pipe(c);
 });
 
-client.on('data', function(data) {
-  console.log(data.toString());
-  client.end();
-});
-
-client.on('end', function() {
-  console.log('client disconnected');
+server.listen('/tmp/echo.sock', function() { //'listening' listener
+  console.log('server bound');
 });
